@@ -3,6 +3,7 @@ import type { NextPage } from "next";
 import { useContext } from "react";
 import EntryList from "../components/EntryList";
 import Layout from "../components/Layout";
+import NewEntry from "../components/NewEntry";
 import { EntriesContext } from "../context/entries";
 
 const Home: NextPage = () => {
@@ -13,6 +14,7 @@ const Home: NextPage = () => {
           <Card sx={{ height: "calc(100vh - 100px)" }}>
             <CardHeader title="Todos" />
             <CardContent>
+              <NewEntry />
               <EntryList status="TODO" />
             </CardContent>
           </Card>
