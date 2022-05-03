@@ -51,7 +51,12 @@ export const EntriesProvider = ({ children }: { children: ReactNode }) => {
   const addEntry = (description: string) => {
     dispatch({
       type: EntriesActions.ADD_ENTRY,
-      payload: { description },
+      payload: {
+        _id: uuid(),
+        createdAt: Date.now(),
+        status: "TODO",
+        description,
+      },
     });
   };
 

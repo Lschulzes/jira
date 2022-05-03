@@ -10,7 +10,7 @@ export enum EntriesActions {
 type EntriesAction =
   | {
       type: EntriesActions.ADD_ENTRY;
-      payload: { description: string };
+      payload: Entry;
     }
   | {
       type: EntriesActions.MOVE_ENTRY;
@@ -30,20 +30,10 @@ const moveEntry = (
   return { ...state, entries: newEntries };
 };
 
-const addEntry = (
-  state: EntriesState,
-  { description }: { description: string }
-): EntriesState => {
+const addEntry = (state: EntriesState, entry: Entry): EntriesState => {
   const { entries } = state;
 
-  const newEntries = entries.concat([
-    {
-      _id: uuid(),
-      createdAt: Date.now(),
-      status: "TODO",
-      description,
-    },
-  ]);
+  const newEntries = entries.concat([entry]);
 
   return { ...state, entries: newEntries };
 };
@@ -61,7 +51,7 @@ export const EntriesReducer = (
       break;
 
     case "ADD_ENTRY":
-      return addEntry(state, { description: action.payload.description });
+      return addEntry(state, action.payload);
       break;
 
     default:

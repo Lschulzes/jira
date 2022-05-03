@@ -3,28 +3,28 @@ import { Button, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useContext, useRef, useState } from "react";
 import { EntriesContext } from "../../context/entries";
+import { UIContext } from "../../context/UI";
 
 const NewEntry = () => {
-  const [adding, setAdding] = useState(false);
   const [touched, setTouched] = useState(false);
-
-  const inputValue = useRef("");
+  const [inputValue, setInputValue] = useState("");
 
   const { addEntry } = useContext(EntriesContext);
+  const { isAddingEntry, toggleAdding } = useContext(UIContext);
 
-  const isValid = () => inputValue.current.length > 10;
-
-  const toggleAdding = () => setAdding((cur) => !cur);
+  const isValid = () => inputValue.length > 10;
 
   const addTask = () => {
     if (!isValid()) return;
-    addEntry(inputValue.current);
+    addEntry(inputValue);
     toggleAdding();
-    inputValue.current = "";
+    setTouched(false);
+    setInputValue("");
   };
+
   return (
     <Box sx={{ marginBottom: 2, paddingX: 1 }}>
-      {!adding ? (
+      {!isAddingEntry ? (
         <Button
           onClick={toggleAdding}
           startIcon={<Add />}
@@ -43,7 +43,7 @@ const NewEntry = () => {
             multiline
             label="New Entry"
             onBlur={() => setTouched(true)}
-            onChange={(e) => (inputValue.current = e.target.value)}
+            onChange={(e) => setInputValue(e.target.value)}
             error={touched && !isValid()}
           />
           <Box display="flex" justifyContent={"space-between"}>

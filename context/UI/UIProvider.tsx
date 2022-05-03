@@ -3,10 +3,12 @@ import { UIContext, UIReducer } from "./";
 
 export type UIState = {
   sideMenuOpen: boolean;
+  isAddingEntry: boolean;
 };
 
 const UI_INITIAL_STATE: UIState = {
   sideMenuOpen: false,
+  isAddingEntry: false,
 };
 
 export const UIProvider = ({ children }: { children: ReactNode }) => {
@@ -16,8 +18,12 @@ export const UIProvider = ({ children }: { children: ReactNode }) => {
     dispatch({ type: "TOGGLE_SIDEBAR" });
   };
 
+  const toggleAdding = () => {
+    dispatch({ type: "TOGGLE_IS_ADDING" });
+  };
+
   return (
-    <UIContext.Provider value={{ ...state, toggleSideMenu }}>
+    <UIContext.Provider value={{ ...state, toggleSideMenu, toggleAdding }}>
       {children}
     </UIContext.Provider>
   );
