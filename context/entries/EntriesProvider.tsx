@@ -2,6 +2,7 @@ import { ReactNode, useReducer } from "react";
 import { Entry } from "../../interfaces";
 import { EntriesContext, EntriesReducer } from "./";
 import { v4 as uuid } from "uuid";
+import { EntriesActions } from "./EntriesReducer";
 
 export type EntriesState = {
   entries: Array<Entry>;
@@ -44,13 +45,13 @@ export const EntriesProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const moveEntry = (_id: string, status: Entry["status"]) => {
-    dispatch({ type: "MOVE_ENTRY", payload: { _id, status, description: "" } });
+    dispatch({ type: EntriesActions.MOVE_ENTRY, payload: { _id, status } });
   };
 
   const addEntry = (description: string) => {
     dispatch({
-      type: "MOVE_ENTRY",
-      payload: { description, _id: "", status: "TODO" },
+      type: EntriesActions.ADD_ENTRY,
+      payload: { description },
     });
   };
 

@@ -7,10 +7,15 @@ export enum EntriesActions {
   ADD_ENTRY = "ADD_ENTRY",
 }
 
-type EntriesAction = {
-  type: `${EntriesActions}`;
-  payload: { _id: string; status: Entry["status"]; description: string };
-};
+type EntriesAction =
+  | {
+      type: EntriesActions.ADD_ENTRY;
+      payload: { description: string };
+    }
+  | {
+      type: EntriesActions.MOVE_ENTRY;
+      payload: { _id: string; status: Entry["status"] };
+    };
 
 const moveEntry = (
   state: EntriesState,
@@ -50,13 +55,13 @@ export const EntriesReducer = (
   switch (action.type) {
     case "MOVE_ENTRY":
       return moveEntry(state, {
-        _id: action.payload?._id,
+        _id: action.payload._id,
         status: action.payload?.status,
       });
       break;
 
     case "ADD_ENTRY":
-      return addEntry(state, { description: action.payload?.description });
+      return addEntry(state, { description: action.payload.description });
       break;
 
     default:
