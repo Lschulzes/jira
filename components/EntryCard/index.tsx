@@ -5,12 +5,26 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { DragEvent, useContext } from "react";
+import { UIContext } from "../../context/UI";
 import { Entry } from "../../interfaces";
 
 const EntryCard = ({ entry }: { entry: Entry }) => {
+  const { toggleDragging } = useContext(UIContext);
+  const onDragStart = (event: DragEvent) => {
+    toggleDragging();
+    event.dataTransfer.setData("text", entry._id);
+  };
+
   return (
-    <Card sx={{ marginBottom: 1, background: "#ffffff08" }}>
+    <Card
+      draggable
+      onDragStart={onDragStart}
+      sx={{
+        marginBottom: 1,
+        background: "#ffffff08",
+      }}
+    >
       <CardActionArea>
         <CardContent>
           <Typography sx={{ whiteSpace: "pre-line" }}>

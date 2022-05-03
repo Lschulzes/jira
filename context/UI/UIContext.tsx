@@ -5,6 +5,8 @@ export interface ContextProps {
   toggleSideMenu: () => void;
   isAddingEntry: boolean;
   toggleAdding: () => void;
+  isDraggingEntry: boolean;
+  toggleDragging: () => void;
 }
 
 export const UIContext = createContext({} as ContextProps);
