@@ -1,19 +1,35 @@
+import { Entry } from "../../interfaces";
 import { EntriesState } from "./EntriesProvider";
 
 export enum EntriesActions {
-  TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR",
+  MOVE_ENTRY = "MOVE_ENTRY",
 }
 
-type EntriesAction = { type: `${EntriesActions}`; payload?: any };
+type EntriesAction = {
+  type: `${EntriesActions}`;
+  payload?: { _id: string; status: Entry["status"] };
+};
+
+const moveEntry = (
+  state: EntriesState,
+  payload: EntriesAction["payload"]
+): EntriesState => {
+  const { entries } = state;
+
+  const newEntries = entries.map((el) =>
+    el._id === payload?._id ? { ...el, status: payload.status } : el
+  );
+
+  return { ...state, entries: newEntries };
+};
 
 export const EntriesReducer = (
   state: EntriesState,
   action: EntriesAction
 ): EntriesState => {
   switch (action.type) {
-    case "TOGGLE_SIDEBAR":
-      const { entries } = state;
-      return { ...state };
+    case "MOVE_ENTRY":
+      return moveEntry(state, action.payload);
       break;
 
     default:

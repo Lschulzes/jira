@@ -43,8 +43,12 @@ export const EntriesProvider = ({ children }: { children: ReactNode }) => {
     undefined
   );
 
+  const moveEntry = (_id: string, status: Entry["status"]) => {
+    dispatch({ type: "MOVE_ENTRY", payload: { _id, status } });
+  };
+
   return (
-    <EntriesContext.Provider value={{ ...state }}>
+    <EntriesContext.Provider value={{ ...state, moveEntry }}>
       {children}
     </EntriesContext.Provider>
   );
