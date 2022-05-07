@@ -7,9 +7,7 @@ const mongoConnection: Connection = {
 };
 
 export const connect = async () => {
-  if (mongoConnection.status) {
-    console.log("Already Connected");
-  }
+  if (mongoConnection.status) console.log("Already Connected");
 
   if (mongoose.connections.length > 0) {
     mongoConnection.status = mongoose.connections[0].readyState;
@@ -21,7 +19,7 @@ export const connect = async () => {
 
   mongoConnection.status = ConnectionStates.connecting;
 
-  await mongoose.connect("");
+  await mongoose.connect(process.env.MONGO_URL ?? "");
 
   mongoConnection.status = ConnectionStates.connected;
 };
