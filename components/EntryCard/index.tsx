@@ -11,6 +11,7 @@ import { Entry } from "../../interfaces";
 
 const EntryCard = ({ entry }: { entry: Entry }) => {
   const { toggleDragging } = useContext(UIContext);
+
   const onDragStart = (event: DragEvent) => {
     toggleDragging();
     event.dataTransfer.setData("text", entry._id);

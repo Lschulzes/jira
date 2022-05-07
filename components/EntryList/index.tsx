@@ -20,7 +20,9 @@ const EntryList = ({ status }: Props) => {
 
   const onDrop = (event: DragEvent) => {
     const uuid = event.dataTransfer.getData("text");
+
     moveEntry(uuid, status);
+
     toggleDragging();
   };
 
