@@ -1,8 +1,9 @@
-import { ReactNode, useReducer } from "react";
+import { ReactNode, useEffect, useReducer } from "react";
 import { Entry } from "../../interfaces";
 import { EntriesContext, EntriesReducer } from "./";
 import { v4 as uuid } from "uuid";
 import { EntriesActions } from "./EntriesReducer";
+import { entriesAPI } from "../../apis";
 
 export type EntriesState = {
   entries: Array<Entry>;
@@ -32,6 +33,19 @@ export const EntriesProvider = ({ children }: { children: ReactNode }) => {
       },
     });
   };
+
+  const refreshEntries = async (entries: Array<Entry>) => {
+    dispatch({
+      type: EntriesActions.REFRESH_ENTRIES,
+      payload: entries,
+    });
+  };
+
+  useEffect(() => {
+    entriesAPI.get("/entries").then(({ data }) => {
+      refreshEntries(data.data);
+    });
+  }, []);
 
   return (
     <EntriesContext.Provider value={{ ...state, moveEntry, addEntry }}>

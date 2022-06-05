@@ -5,6 +5,7 @@ import { v4 as uuid } from "uuid";
 export enum EntriesActions {
   MOVE_ENTRY = "MOVE_ENTRY",
   ADD_ENTRY = "ADD_ENTRY",
+  REFRESH_ENTRIES = "REFRESH_ENTRIES",
 }
 
 type EntriesAction =
@@ -15,6 +16,10 @@ type EntriesAction =
   | {
       type: EntriesActions.MOVE_ENTRY;
       payload: { _id: string; status: Entry["status"] };
+    }
+  | {
+      type: EntriesActions.REFRESH_ENTRIES;
+      payload: Array<Entry>;
     };
 
 const moveEntry = (
@@ -38,6 +43,13 @@ const addEntry = (state: EntriesState, entry: Entry): EntriesState => {
   return { ...state, entries: newEntries };
 };
 
+const refreshEntries = (
+  state: EntriesState,
+  entries: Array<Entry>
+): EntriesState => {
+  return { ...state, entries };
+};
+
 export const EntriesReducer = (
   state: EntriesState,
   action: EntriesAction
@@ -51,6 +63,9 @@ export const EntriesReducer = (
 
     case "ADD_ENTRY":
       return addEntry(state, action.payload);
+
+    case EntriesActions.REFRESH_ENTRIES:
+      return refreshEntries(state, action.payload);
 
     default:
       return { ...state };
