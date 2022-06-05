@@ -8,34 +8,7 @@ export type EntriesState = {
   entries: Array<Entry>;
 };
 
-const Entries_INITIAL_STATE: EntriesState = {
-  entries: [
-    {
-      _id: uuid(),
-      createdAt: Date.now(),
-      description: "TODO Lorem Ipsum Dolores di mec le trab is en el fon",
-      status: "TODO",
-    },
-    {
-      _id: uuid(),
-      createdAt: Date.now() - 300000,
-      description: "PROGRESS Lorem Ipsum Dolores di mec le trab is en el fon",
-      status: "IN_PROGRESS",
-    },
-    {
-      _id: uuid(),
-      createdAt: Date.now() - 600000,
-      description: "TEST Lorem Ipsum Dolores di mec le trab is en el fon",
-      status: "IN_TEST",
-    },
-    {
-      _id: uuid(),
-      createdAt: Date.now() - 1000000,
-      description: "COMPLETED Lorem Ipsum Dolores di mec le trab is en el fon",
-      status: "COMPLETED",
-    },
-  ],
-};
+const Entries_INITIAL_STATE: EntriesState = { entries: [] };
 
 export const EntriesProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(
