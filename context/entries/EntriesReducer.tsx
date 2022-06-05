@@ -48,14 +48,11 @@ export const EntriesReducer = (
         _id: action.payload._id,
         status: action.payload?.status,
       });
-      break;
 
     case "ADD_ENTRY":
       return addEntry(state, action.payload);
-      break;
 
     default:
       return { ...state };
-      break;
   }
 };

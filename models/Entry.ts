@@ -1,14 +1,14 @@
 import mongoose, { Model, Schema, model, models } from "mongoose";
 import { Entry } from "../interfaces";
 
-interface IEntry extends Entry {}
+export interface IEntry extends Entry {}
 
 const EntrySchema = new Schema({
   description: {
     type: String,
     required: true,
   },
-  createdAt: { type: Number },
+  createdAt: { type: Number, required: true, default: Date.now() },
   status: {
     type: String,
     enum: {
