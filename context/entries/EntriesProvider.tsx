@@ -19,8 +19,8 @@ export const EntriesProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const moveEntry = async (_id: string, status: Entry["status"]) => {
-    const { data } = await entriesAPI.patch("/entries", { _id, status });
-    console.log(data.data);
+    const { data } = await entriesAPI.patch(`/entries/${_id}`, { status });
+
     dispatch({ type: EntriesActions.MOVE_ENTRY, payload: data.data });
   };
 
