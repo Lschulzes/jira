@@ -5,13 +5,14 @@ const { next } = NextResponse;
 
 export function middleware(req: NextRequest, ev: NextFetchEvent) {
   const _id = req.page.params?.id ?? "";
-  console.log("first");
-  if (!mongoose.isValidObjectId(_id))
+
+  const checkIfIsValidId = new RegExp("^[0-9a-fA-F]{24}$");
+
+  if (!checkIfIsValidId.test(_id))
     return new Response(
       JSON.stringify({ message: "Id is not valid! " + _id }),
       { status: 400 }
     );
 
-  console.log("ss");
   return next();
 }
