@@ -10,26 +10,21 @@ export enum EntriesActions {
 
 type EntriesAction =
   | {
-      type: EntriesActions.ADD_ENTRY;
+      type: EntriesActions.ADD_ENTRY | EntriesActions.MOVE_ENTRY;
       payload: Entry;
-    }
-  | {
-      type: EntriesActions.MOVE_ENTRY;
-      payload: { _id: string; status: Entry["status"] };
     }
   | {
       type: EntriesActions.REFRESH_ENTRIES;
       payload: Array<Entry>;
     };
 
-const moveEntry = (
-  state: EntriesState,
-  { _id, status }: { _id: string; status: Entry["status"] }
-): EntriesState => {
+const moveEntry = (state: EntriesState, entry: Entry): EntriesState => {
   const { entries } = state;
 
+  const { _id, createdAt, description, status } = entry;
+
   const newEntries = entries.map((el) =>
-    el._id === _id ? { ...el, status } : el
+    el._id === entry._id ? { _id, createdAt, description, status } : el
   );
 
   return { ...state, entries: newEntries };
@@ -46,9 +41,7 @@ const addEntry = (state: EntriesState, entry: Entry): EntriesState => {
 const refreshEntries = (
   state: EntriesState,
   entries: Array<Entry>
-): EntriesState => {
-  return { ...state, entries };
-};
+): EntriesState => ({ ...state, entries });
 
 export const EntriesReducer = (
   state: EntriesState,
@@ -56,10 +49,7 @@ export const EntriesReducer = (
 ): EntriesState => {
   switch (action.type) {
     case "MOVE_ENTRY":
-      return moveEntry(state, {
-        _id: action.payload._id,
-        status: action.payload?.status,
-      });
+      return moveEntry(state, action.payload);
 
     case "ADD_ENTRY":
       return addEntry(state, action.payload);

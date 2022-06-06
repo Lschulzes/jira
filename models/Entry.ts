@@ -15,6 +15,7 @@ const EntrySchema = new Schema({
       values: ["TODO", "IN_PROGRESS", "COMPLETED", "IN_TEST"],
       message: "{VALUE} is not allowed",
     },
+    default: "TODO",
   },
 });
 

@@ -18,19 +18,18 @@ export const EntriesProvider = ({ children }: { children: ReactNode }) => {
     undefined
   );
 
-  const moveEntry = (_id: string, status: Entry["status"]) => {
-    dispatch({ type: EntriesActions.MOVE_ENTRY, payload: { _id, status } });
+  const moveEntry = async (_id: string, status: Entry["status"]) => {
+    const { data } = await entriesAPI.patch("/entries", { _id, status });
+    console.log(data.data);
+    dispatch({ type: EntriesActions.MOVE_ENTRY, payload: data.data });
   };
 
-  const addEntry = (description: string) => {
+  const addEntry = async (description: string) => {
+    const { data } = await entriesAPI.post("/entries", { description });
+
     dispatch({
       type: EntriesActions.ADD_ENTRY,
-      payload: {
-        _id: uuid(),
-        createdAt: Date.now(),
-        status: "TODO",
-        description,
-      },
+      payload: data.data,
     });
   };
 

@@ -22,6 +22,9 @@ export default async function handler(
     case "POST":
       return insertEntry(req.body, res);
 
+    case "PATCH":
+      return updateEntry(req.body, res);
+
     default:
       return res.status(404).json({ message: "Endpoint not found!" });
   }
@@ -41,11 +44,30 @@ const getEntries = async (res: NextApiResponse) => {
 const insertEntry = async (entry: Entry, res: NextApiResponse) => {
   await db.connect();
 
+  const { description = "" } = entry;
+
   const entryAdded = await EntryModel.create({
-    ...entry,
+    description,
     createdAt: Date.now(),
   });
 
   await db.disconnect();
   res.status(200).json({ status: "successful", data: entryAdded });
+};
+
+const updateEntry = async (entry: Entry, res: NextApiResponse) => {
+  await db.connect();
+
+  const { status, _id } = entry;
+
+  const entryUpdated = await EntryModel.findOneAndUpdate(
+    {
+      _id,
+    },
+    { status },
+    { returnOriginal: false }
+  );
+
+  await db.disconnect();
+  res.status(200).json({ status: "successful", data: entryUpdated });
 };
